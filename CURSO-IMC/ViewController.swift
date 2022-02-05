@@ -3,7 +3,6 @@
 //  CURSO-IMC
 //
 //  Created by Ronaldo Jacinto on 31/01/22.
-//
 
 import UIKit
 
@@ -15,18 +14,30 @@ class ViewController: UIViewController {
     @IBOutlet weak var ivResult: UIImageView!
     @IBOutlet weak var viResult: UIView!
     
+    @IBOutlet weak var btCalculate: UIButton!
     
     var imc: Double = 0
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        print("abriu")
+        btCalculate.layer.cornerRadius = 6
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources tha can be recreated
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+        
     }
     
     @IBAction func calculate(_ sender: Any) {
-        if let weight = Double(tfWeight.text!), let height = Double(tfHeight.text!){
+        let formatWeight=tfWeight.text!.replacingOccurrences(of: ",", with: ".")
+        let formatHeight=tfHeight.text!.replacingOccurrences(of: ",", with: ".")
+        
+        if let weight = Double(formatWeight),
+           let height = Double(formatHeight){
             imc = weight / (height*height)
             showResults()
         }
@@ -52,10 +63,10 @@ class ViewController: UIViewController {
             image = "obesidade"
             
         }
-        lbResult.text = result
+        lbResult.text = "\(Int(imc)): \(result)"
         ivResult.image = UIImage(named: image)
-        
         viResult.isHidden = false
+        view.endEditing(true)
     }
     
 }
